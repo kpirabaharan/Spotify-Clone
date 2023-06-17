@@ -4,7 +4,9 @@ import { TbPlaylist } from 'react-icons/tb';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 const Library = () => {
-  const onClick = () => {};
+  const onClick = () => {
+    // TODO: Handle OnClick
+  };
 
   return (
     <div className='flex flex-col'>
