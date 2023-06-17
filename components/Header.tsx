@@ -19,11 +19,11 @@ const Header = ({ children, className }: AppProps) => {
   const handleLogout = () => {
     // TODO: Handle Logout
   };
-  <RxCaretLeft />;
+
   return (
     <div
       className={twMerge(
-        `bg-gradient-to-b from-emerald-800 p-6 rounded-lg h-fit`,
+        `bg-gradient-to-b from-slate-700 p-6 rounded-lg h-fit`,
         className,
       )}
     >
