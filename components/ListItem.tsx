@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaPlay } from 'react-icons/fa';
 
-type AppProps = {
+interface ListItemProps {
   image: string;
   name: string;
   href: string;
-};
+}
 
-const ListItem = ({ image, name, href }: AppProps) => {
+const ListItem = ({ image, name, href }: ListItemProps) => {
   const router = useRouter();
 
   const onClick = () => {

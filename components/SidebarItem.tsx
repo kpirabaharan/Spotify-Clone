@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { IconType } from 'react-icons';
 import { twMerge } from 'tailwind-merge';
 
-type AppProps = {
+interface SidebarItemProps {
   icon: IconType;
   label: string;
   active?: boolean;
   href: string;
-};
+}
 
-const SidebarItem = ({ icon: Icon, label, active, href }: AppProps) => {
+const SidebarItem = ({ icon: Icon, label, active, href }: SidebarItemProps) => {
   return (
     <Link
       href={href}

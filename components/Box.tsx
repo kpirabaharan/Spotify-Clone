@@ -1,11 +1,11 @@
+import { PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-type AppProps = {
-  children: React.ReactNode;
+interface BoxProps extends PropsWithChildren {
   className?: string;
-};
+}
 
-const Box = ({ children, className }: AppProps) => {
+const Box = ({ children, className }: BoxProps) => {
   return (
     <div
       className={twMerge(`bg-neutral-900 rounded-lg h-fit w-full`, className)}

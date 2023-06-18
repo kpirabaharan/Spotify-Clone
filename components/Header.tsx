@@ -1,5 +1,6 @@
 'use client';
 
+import { PropsWithChildren } from 'react';
 import { useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { RxCaretLeft, RxCaretRight } from 'react-icons/rx';
@@ -8,12 +9,11 @@ import { BiSearch } from 'react-icons/bi';
 
 import Button from './Button';
 
-type AppProps = {
-  children: React.ReactNode;
+interface HeaderProps extends PropsWithChildren {
   className?: string;
-};
+}
 
-const Header = ({ children, className }: AppProps) => {
+const Header = ({ children, className }: HeaderProps) => {
   const router = useRouter();
 
   const handleLogout = () => {
