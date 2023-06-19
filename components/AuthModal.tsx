@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   useSessionContext,
@@ -8,14 +9,22 @@ import {
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 
-import Modal from './Modal';
 import useAuthModal from '@/hooks/useAuthModal';
+
+import Modal from './Modal';
 
 const AuthModal = () => {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
   const { session } = useSessionContext();
   const { onClose, isOpen } = useAuthModal();
+
+  useEffect(() => {
+    if (session) {
+      router.refresh();
+      onClose();
+    }
+  }, [session, router, onClose]);
 
   return (
     <Modal
@@ -33,12 +42,23 @@ const AuthModal = () => {
         providers={['github']}
         magicLink
         supabaseClient={supabaseClient}
+        // view='sign_up'
         appearance={{
           theme: ThemeSupa,
+          style: {
+            button: {
+              borderRadius: '10px',
+              borderColor: 'rgba(0,0,0,0)',
+            },
+            input: {
+              borderRadius: '10px',
+              borderColor: 'rgba(0,0,0,0)',
+            },
+          },
           variables: {
             default: {
               colors: {
-                brand: '#334155',
+                brand: '#404040',
                 brandAccent: '#334155',
               },
             },

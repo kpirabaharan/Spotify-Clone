@@ -36,6 +36,7 @@ export const MyUserContextProvider = (props: Props) => {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
 
   const getUserDetails = () => supabase.from('users').select('*').single();
+
   const getSubscription = () =>
     supabase
       .from('subscriptions')
@@ -52,6 +53,7 @@ export const MyUserContextProvider = (props: Props) => {
           getUserDetails(),
           getSubscription(),
         ]);
+
         const userDetailsPromise = results[0];
         const subscriptionPromise = results[1];
 
@@ -88,7 +90,7 @@ export const MyUserContextProvider = (props: Props) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  
+
   if (context === undefined) {
     throw new Error(`useUser must be used within a MyUserContextProvider`);
   }
