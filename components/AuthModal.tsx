@@ -8,6 +8,7 @@ import {
 } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { toast } from 'react-hot-toast';
 
 import useAuthModal from '@/hooks/useAuthModal';
 
@@ -23,6 +24,7 @@ const AuthModal = () => {
     if (session) {
       router.refresh();
       onClose();
+      toast.success('Logged In');
     }
   }, [session, router, onClose]);
 
@@ -42,7 +44,6 @@ const AuthModal = () => {
         providers={['github']}
         magicLink
         supabaseClient={supabaseClient}
-        // view='sign_up'
         appearance={{
           theme: ThemeSupa,
           style: {
