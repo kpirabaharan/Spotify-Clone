@@ -81,9 +81,8 @@ const UploadModal = () => {
       }
 
       // Create record in table
-      const { error: supabaseError } = await supabaseClient
-        .from('songs')
-        .insert({
+      const { error: supabaseError, status: supabaseStatus } =
+        await supabaseClient.from('songs').insert({
           user_id: user.id,
           title: values.title,
           artist: values.artist,
@@ -99,7 +98,9 @@ const UploadModal = () => {
       // Success Case
       router.refresh();
       setIsLoading(false);
-      toast.success('Song created');
+      if (supabaseStatus === 201) {
+        toast.success('Song created');
+      }
       reset();
       onClose();
     } catch (err) {
