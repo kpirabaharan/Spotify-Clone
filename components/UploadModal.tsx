@@ -96,13 +96,13 @@ const UploadModal = () => {
       }
 
       // Success Case
-      router.refresh();
       setIsLoading(false);
       if (supabaseStatus === 201) {
         toast.success('Song created');
       }
       reset();
       onClose();
+      router.refresh();
     } catch (err) {
       toast.error('Something went wrong');
     } finally {
