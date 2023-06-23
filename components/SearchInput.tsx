@@ -14,7 +14,7 @@ const SearchInput = () => {
   const debouncedValue = useDebounce(value, 500);
 
   useEffect(() => {
-    const query = { title: debouncedValue };
+    const query = { query: debouncedValue };
 
     const url = qs.stringifyUrl({ url: '/search', query: query });
 
