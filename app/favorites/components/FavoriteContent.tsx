@@ -9,11 +9,11 @@ import { useUser } from '@/hooks/useUser';
 import MediaItem from '@/components/MediaItem';
 import LikeButton from '@/components/LikeButton';
 
-interface LikedContentProps {
+interface FavoriteContentProps {
   songs: Song[];
 }
 
-const LikedContent = ({ songs }: LikedContentProps) => {
+const FavoriteContent = ({ songs }: FavoriteContentProps) => {
   const router = useRouter();
   const { isLoading, user } = useUser();
 
@@ -26,7 +26,7 @@ const LikedContent = ({ songs }: LikedContentProps) => {
   if (songs.length === 0) {
     return (
       <div className='flex flex-col gap-y-2 w-full px-6 text-neutral-400 '>
-        No Liked Songs
+        No Favorite Songs
       </div>
     );
   }
@@ -45,4 +45,4 @@ const LikedContent = ({ songs }: LikedContentProps) => {
   );
 };
 
-export default LikedContent;
+export default FavoriteContent;

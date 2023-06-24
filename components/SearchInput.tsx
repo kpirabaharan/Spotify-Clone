@@ -23,7 +23,7 @@ const SearchInput = () => {
 
   return (
     <Input
-      placeholder='Search for a song'
+      placeholder='Search for a song by name or artist'
       value={value}
       onChange={(val) => setValue(val.target.value)}
     />
