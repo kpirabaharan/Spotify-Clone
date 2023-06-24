@@ -25,7 +25,6 @@ const SearchContent = ({ songs }: SearchContentProps) => {
           <div className='flex-1 '>
             <MediaItem data={song} onClick={() => {}} />
           </div>
-
           <LikeButton songId={song.id} />
         </div>
       ))}

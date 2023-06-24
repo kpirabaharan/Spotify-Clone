@@ -5,6 +5,8 @@ import SearchInput from '@/components/SearchInput';
 import SearchContent from './components/SearchContent';
 import getSongsByArtist from '@/actions/getSongsByArtist';
 
+export const revalidate = 0;
+
 interface SearchProps {
   searchParams: {
     query: string;
