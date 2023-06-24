@@ -21,6 +21,7 @@ interface PlayerContentProps {
 const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
   const player = usePlayer();
   const [volume, setVolume] = useState(0.5);
+  const [oldVolume, setOldVolume] = useState(0.5);
   const [isPlaying, setIsPlaying] = useState(true);
 
   // Play Song
@@ -55,9 +56,10 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
 
   const toggleMute = () => {
     if (volume !== 0) {
+      setOldVolume(volume);
       setVolume(0);
     } else {
-      setVolume(1);
+      setVolume(oldVolume);
     }
   };
 
