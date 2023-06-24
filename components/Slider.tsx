@@ -17,10 +17,10 @@ const Slider = ({ value = 0.5, onChange }: SliderProps) => {
       value={[value]}
       onValueChange={handleChange}
       max={1}
-      step={0.1}
+      step={0.01}
       aria-label='Volume'
     >
-      <Track className='bg-neutral-600 relative grow rounded-full h-[3px]'>
+      <Track className='bg-neutral-600 relative grow rounded-full h-[10px]'>
         <Range className='absolute bg-white rounded-full h-full' />
       </Track>
     </Root>
