@@ -107,7 +107,8 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
           <LikeButton songId={song.id} />
         </div>
       </div>
-      <div className='flex md:hidden col-auto w-full justify-end items-center'>
+      <div className='flex gap-x-4 md:hidden col-auto w-full justify-end items-center'>
+        <VolumeIcon onClick={toggleMute} className='cursor-pointer' size={25} />
         <div
           onClick={handlePlay}
           className='h-10 w-10 flex items-center justify-center rounded-full 
