@@ -101,12 +101,13 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
 
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 h-full'>
-      <div className='flex w-[270px] justify-start'>
-        <div className='flex items-center justify-between w-full gap-x-4'>
+      <div className='flex w-full justify-start'>
+        <div className='flex items-center gap-x-2 max-w-[250px]'>
           <MediaItem data={song} />
           <LikeButton songId={song.id} />
         </div>
       </div>
+
       <div className='flex gap-x-4 md:hidden col-auto w-full justify-end items-center'>
         <VolumeIcon onClick={toggleMute} className='cursor-pointer' size={25} />
         <div
@@ -117,6 +118,7 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
           <Icon size={30} className='text-black' />
         </div>
       </div>
+
       <div
         className='hidden md:flex h-full justify-center items-center w-full 
         max-w-[722px] gap-x-6'
