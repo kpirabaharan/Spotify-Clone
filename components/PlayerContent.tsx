@@ -20,8 +20,8 @@ interface PlayerContentProps {
 
 const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
   const player = usePlayer();
-  const [volume, setVolume] = useState(0.5);
-  const [oldVolume, setOldVolume] = useState(0.5);
+  const [volume, setVolume] = useState(1);
+  const [oldVolume, setOldVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(true);
 
   // Play Song
