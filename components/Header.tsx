@@ -1,6 +1,7 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { twMerge } from 'tailwind-merge';
@@ -63,18 +64,22 @@ const Header = ({ children, className }: HeaderProps) => {
           </button>
         </div>
         <div className='flex md:hidden gap-x-2 items-center'>
-          <button
-            className='rounded-full p-2 bg-white flex items-center 
+          <Link href={'/'}>
+            <button
+              className='rounded-full p-2 bg-white flex items-center 
             justify-center hover:opacity-75 transition'
-          >
-            <HiHome className='text-black' size={20} />
-          </button>
-          <button
-            className='rounded-full p-2 bg-white flex items-center 
+            >
+              <HiHome className='text-black' size={20} />
+            </button>
+          </Link>
+          <Link href={'/search'}>
+            <button
+              className='rounded-full p-2 bg-white flex items-center 
             justify-center hover:opacity-75 transition'
-          >
-            <BiSearch className='text-black' size={20} />
-          </button>
+            >
+              <BiSearch className='text-black' size={20} />
+            </button>
+          </Link>
         </div>
         <div className='flex justify-between items-center gap-x-4'>
           {user ? (
