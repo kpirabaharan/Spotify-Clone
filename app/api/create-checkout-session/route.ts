@@ -25,12 +25,20 @@ export const POST = async (request: Request) => {
       payment_method_types: ['card'],
       billing_address_collection: 'required',
       customer,
-      line_items: [{ price: price.id, quantity }],
+      line_items: [
+        {
+          price: price.id,
+          quantity,
+        },
+      ],
       mode: 'subscription',
       allow_promotion_codes: true,
-      subscription_data: { trial_from_plan: true, metadata },
+      subscription_data: {
+        trial_from_plan: true,
+        metadata,
+      },
       success_url: `${getUrl()}/account`,
-      cancel_url: `${getUrl()}`,
+      cancel_url: `${getUrl()}/`,
     });
 
     return NextResponse.json({ sessionId: session.id });

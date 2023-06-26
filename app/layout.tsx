@@ -2,11 +2,12 @@ import './globals.css';
 import { PropsWithChildren } from 'react';
 import { Figtree } from 'next/font/google';
 
-import getSongsByUserId from '@/actions/getSongsByUserId';
 import SupabaseProvider from '@/providers/SupabaseProvider';
 import ToasterProvider from '@/providers/ToasterProvider';
 import UserProvider from '@/providers/UserProvider';
 import ModalProvider from '@/providers/ModalProvider';
+import getSongsByUserId from '@/actions/getSongsByUserId';
+import getActiveProductsWithPrices from '@/actions/getActiveProductsWithPrices';
 
 import Sidebar from '@/components/Sidebar';
 import Player from '@/components/Player';
@@ -24,6 +25,7 @@ interface RootLayoutProps extends PropsWithChildren {}
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const userSongs = await getSongsByUserId();
+  const products = await getActiveProductsWithPrices();
 
   return (
     <html lang='en'>
@@ -31,7 +33,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
-            <ModalProvider />
+            <ModalProvider products={products} />
             <Sidebar songs={userSongs}>{children}</Sidebar>
             <Player />
           </UserProvider>

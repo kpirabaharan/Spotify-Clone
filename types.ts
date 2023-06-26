@@ -29,6 +29,15 @@ export interface Subscription {
   prices?: Price;
 }
 
+export interface Product {
+  id: string;
+  active?: boolean;
+  name?: string;
+  description?: string;
+  image?: string;
+  metadata?: Stripe.Metadata;
+}
+
 export interface Price {
   id: string;
   product_id?: string;
@@ -44,13 +53,8 @@ export interface Price {
   products?: Product;
 }
 
-export interface Product {
-  id: string;
-  active?: boolean;
-  name?: string;
-  description?: string;
-  image?: string;
-  metadata?: Stripe.Metadata;
+export interface ProductWithPrice extends Product {
+  prices?: Price[];
 }
 
 export interface Song {
