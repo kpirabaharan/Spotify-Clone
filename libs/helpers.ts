@@ -29,7 +29,7 @@ export const postData = async ({ url, data }: postDataProps) => {
     body: JSON.stringify(data),
   });
 
-  if (res.ok) {
+  if (!res.ok) {
     console.log('Error in POST', { url, data, res });
 
     throw new Error(res.statusText);
