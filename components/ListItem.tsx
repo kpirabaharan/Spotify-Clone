@@ -1,8 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { FaPlay } from 'react-icons/fa';
+
+import useAuthModal from '@/hooks/useAuthModal';
+import { useUser } from '@/hooks/useUser';
 
 interface ListItemProps {
   image: string;
@@ -12,9 +15,13 @@ interface ListItemProps {
 
 const ListItem = ({ image, name, href }: ListItemProps) => {
   const router = useRouter();
+  const { user } = useUser();
+  const { onOpen } = useAuthModal();
 
   const onClick = () => {
-    // TODO: Add Auth Before Push
+    if (!user) {
+      return onOpen();
+    }
     router.push(href);
   };
 
