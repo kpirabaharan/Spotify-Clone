@@ -19,6 +19,12 @@ const AuthModal = () => {
   const { session } = useSessionContext();
   const { onClose, isOpen } = useAuthModal();
 
+  const onChange = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
+  };
+
   useEffect(() => {
     if (session) {
       router.refresh();
@@ -31,11 +37,7 @@ const AuthModal = () => {
       title='Welcome back'
       description='Login to your account'
       isOpen={isOpen}
-      onChange={(open) => {
-        if (!open) {
-          onClose();
-        }
-      }}
+      onChange={onChange}
     >
       <Auth
         theme='dark'
