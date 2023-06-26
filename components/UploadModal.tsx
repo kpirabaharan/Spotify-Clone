@@ -103,7 +103,7 @@ const UploadModal = () => {
       reset();
       onClose();
       router.refresh();
-    } catch (err) {
+    } catch (_) {
       toast.error('Something went wrong');
     } finally {
       setIsLoading(false);

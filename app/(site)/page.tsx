@@ -7,7 +7,7 @@ import Welcome from './components/Welcome';
 
 export const revalidate = 0;
 
-export default async function Home() {
+const Home = async () => {
   const songs = await getSongs();
 
   return (
@@ -35,4 +35,6 @@ export default async function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;

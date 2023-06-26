@@ -1,4 +1,5 @@
 import './globals.css';
+import { PropsWithChildren } from 'react';
 import { Figtree } from 'next/font/google';
 
 import getSongsByUserId from '@/actions/getSongsByUserId';
@@ -19,11 +20,9 @@ export const metadata = {
 
 export const revalidate = 0;
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+interface RootLayoutProps extends PropsWithChildren {}
+
+const RootLayout = async ({ children }: RootLayoutProps) => {
   const userSongs = await getSongsByUserId();
 
   return (
@@ -40,4 +39,6 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

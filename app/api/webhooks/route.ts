@@ -24,7 +24,7 @@ const relevantEvents = new Set([
   'customer.subscription.deleted',
 ]);
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
   const body = await request.text();
   const sig = headers().get('Stripe-Signature');
 
@@ -91,4 +91,4 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ received: true }, { status: 200 });
-}
+};
