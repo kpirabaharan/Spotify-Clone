@@ -80,9 +80,10 @@ const SubscribeModal = ({ products }: SubscribeModalProps) => {
               className='mb-4'
               onClick={() => handleCheckout(price)}
               disabled={isLoading || price.id === priceIdLoading}
-            >{`Subscribe for ${formatPrice(price)} a ${
-              price.interval
-            }`}</Button>
+            >
+              <p>{`Subscribe for a ${product.description}`}</p>
+              <p className='text-lg font-bold'>{` ${formatPrice(price)}/mo`}</p>
+            </Button>
           ));
         })}
       </div>
