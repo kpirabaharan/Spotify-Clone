@@ -37,8 +37,8 @@ export const POST = async (request: Request) => {
         trial_from_plan: true,
         metadata,
       },
-      success_url: `${getUrl()}/account`,
-      cancel_url: `${getUrl()}/`,
+      success_url: `${getUrl()}account`,
+      cancel_url: `${getUrl()}`,
     });
 
     return NextResponse.json({ sessionId: session.id });

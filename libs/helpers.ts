@@ -2,7 +2,7 @@ import { Price } from '@/types';
 
 export const getUrl = () => {
   let url =
-    process.env.NEXT_PUBLIC_SITE_URL ?? // * Production URL
+    'https://spotify-clone-kpirabaharan.vercel.app/' ?? // * Production URL
     process.env.NEXT_PUBLIC_VERCEL_URL ?? // * Vercel Auto URL
     'http://localhost:3000/'; // * Dev
 
