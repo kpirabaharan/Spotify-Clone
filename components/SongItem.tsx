@@ -20,7 +20,6 @@ const SongItem = ({ data, onClick }: SongItemProps) => {
       className='relative group flex flex-col items-center justify-center rounded-md 
       overflow-hidden gap-x-4 bg-neutral-400/5 cursor-pointer hover:bg-neutral-400/10 
       transition p-3'
-      onClick={() => onClick(data.id)}
     >
       <div
         className='relative aspect-square w-full h-full rounded-md overflow-hidden
@@ -40,7 +39,7 @@ const SongItem = ({ data, onClick }: SongItemProps) => {
         </p>
       </div>
       <div className='absolute bottom-[100px] right-5'>
-        <PlayButton />
+        <PlayButton data={data} onClick={onClick} />
       </div>
       <div
         className='absolute opacity-0 bottom-[100px] left-5 rounded-full 
@@ -52,9 +51,5 @@ const SongItem = ({ data, onClick }: SongItemProps) => {
     </div>
   );
 };
-
-//'transition opacity-0 rounded-full flex items-center bg-slate-500
-// p-4 drop-shadow-md translate translate-y-1/4 group-hover:opacity-100
-// group-hover:translate-y-0 hover:scale-110'
 
 export default SongItem;
