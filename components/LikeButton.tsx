@@ -72,7 +72,7 @@ const LikeButton = ({ songId }: LikeButtonProps) => {
         toast.error(error.message);
       } else {
         setIsLiked(true);
-        toast.success('Liked!');
+        toast.success('Liked!', { id: 'like' });
       }
     }
 
