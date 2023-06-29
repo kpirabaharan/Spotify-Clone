@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Song } from '@/types';
 import useLoadImage from '@/hooks/useLoadImage';
 import PlayButton from './PlayButton';
+import LikeButton from './LikeButton';
 
 interface SongItemProps {
   data: Song;
@@ -41,8 +42,19 @@ const SongItem = ({ data, onClick }: SongItemProps) => {
       <div className='absolute bottom-[100px] right-5'>
         <PlayButton />
       </div>
+      <div
+        className='absolute opacity-0 bottom-[100px] left-5 rounded-full 
+        transition translate translate-y-1/4 group-hover:opacity-100 
+        group-hover:translate-y-0 hover:scale-110'
+      >
+        <LikeButton songId={data.id} />
+      </div>
     </div>
   );
 };
+
+//'transition opacity-0 rounded-full flex items-center bg-slate-500
+// p-4 drop-shadow-md translate translate-y-1/4 group-hover:opacity-100
+// group-hover:translate-y-0 hover:scale-110'
 
 export default SongItem;
