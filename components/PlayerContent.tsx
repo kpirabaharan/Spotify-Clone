@@ -1,7 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BsPauseFill, BsPlayFill } from 'react-icons/bs';
+import {
+  BsPauseFill,
+  BsPlayFill,
+  BsRepeat,
+  BsRepeat1,
+  BsShuffle,
+} from 'react-icons/bs';
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
 import useSound from 'use-sound';
@@ -14,14 +20,27 @@ import Slider from './Slider';
 import usePlayer from '@/hooks/usePlayer';
 
 interface PlayerContentProps {
+  volume: number;
+  setVolume: (vol: number) => void;
+  isLoop: boolean;
+  setIsLoop: (val: boolean) => void;
+  oldVolume: number;
+  setOldVolume: (vol: number) => void;
   song: Song;
   songUrl: string;
 }
 
-const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
+const PlayerContent = ({
+  volume,
+  setVolume,
+  isLoop,
+  setIsLoop,
+  oldVolume,
+  setOldVolume,
+  song,
+  songUrl,
+}: PlayerContentProps) => {
   const player = usePlayer();
-  const [volume, setVolume] = useState(1);
-  const [oldVolume, setOldVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(true);
 
   // Play Song
@@ -80,19 +99,33 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
   };
 
   // Play Next Song
-  const onPlayNext = () => {
+  const onPlayNext = (clicked = false) => {
     if (player.ids.length === 0) {
       return;
     }
 
     const currentIndex = player.ids.findIndex((id) => id === player.activeId);
-    const nextSong = player.ids[currentIndex + 1];
+    let nextSong: string;
+
+    if (isLoop && !clicked) {
+      nextSong = player.ids[currentIndex];
+    } else {
+      nextSong = player.ids[currentIndex + 1];
+    }
 
     if (!nextSong) {
       return player.setId(player.ids[0]);
     }
 
-    player.setId(nextSong);
+    return player.setId(nextSong);
+  };
+
+  const onLoop = () => {
+    if (isLoop) {
+      setIsLoop(false);
+    } else {
+      setIsLoop(true);
+    }
   };
 
   // Player Icons
@@ -123,6 +156,10 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
         className='hidden md:flex h-full justify-center items-center w-full 
         max-w-[722px] gap-x-6'
       >
+        <BsShuffle
+          size={23}
+          className='text-neutral-400 cursor-pointer hover:text-white transition'
+        />
         <AiFillStepBackward
           onClick={onPlayPrevious}
           size={30}
@@ -131,15 +168,28 @@ const PlayerContent = ({ song, songUrl }: PlayerContentProps) => {
         <div
           onClick={handlePlay}
           className='flex items-center justify-center h-10 w-10 rounded-full 
-          bg-white p-1 cursor-pointer'
+          bg-white p-1 cursor-pointer hover:scale-110'
         >
           <Icon size={30} className='text-black' />
         </div>
         <AiFillStepForward
-          onClick={onPlayNext}
+          onClick={() => onPlayNext(true)}
           size={30}
           className='text-neutral-400 cursor-pointer hover:text-white transition'
         />
+        {isLoop ? (
+          <BsRepeat1
+            onClick={onLoop}
+            size={23}
+            className='text-neutral-400 cursor-pointer hover:text-white transition'
+          />
+        ) : (
+          <BsRepeat
+            onClick={onLoop}
+            size={23}
+            className='text-neutral-400 cursor-pointer hover:text-white transition'
+          />
+        )}
       </div>
 
       <div className='hidden md:flex w-full justify-end pr-2'>
