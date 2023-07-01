@@ -13,6 +13,7 @@ const Player = () => {
   const [isLoop, setIsLoop] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
   const [oldVolume, setOldVolume] = useState(1);
+  const [seek, setSeek] = useState(0);
 
   const player = usePlayer();
   const { song } = useGetSongById(player.activeId);
@@ -26,6 +27,7 @@ const Player = () => {
     }
     console.log(isShuffle);
     console.log(player.ids, player.unShuffledIds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShuffle]);
 
   if (!song || !songUrl || !player.activeId) {
@@ -43,6 +45,8 @@ const Player = () => {
         setIsShuffle={setIsShuffle}
         oldVolume={oldVolume}
         setOldVolume={setOldVolume}
+        seek={seek}
+        setSeek={setSeek}
         key={songUrl}
         song={song}
         songUrl={songUrl}

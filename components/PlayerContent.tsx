@@ -23,6 +23,8 @@ import usePlayer from '@/hooks/usePlayer';
 interface PlayerContentProps {
   volume: number;
   setVolume: (vol: number) => void;
+  seek: number;
+  setSeek: (val: number) => void;
   isLoop: boolean;
   setIsLoop: (val: boolean) => void;
   isShuffle: boolean;
@@ -42,6 +44,8 @@ const PlayerContent = ({
   setIsShuffle,
   oldVolume,
   setOldVolume,
+  seek,
+  setSeek,
   song,
   songUrl,
 }: PlayerContentProps) => {
@@ -165,54 +169,63 @@ const PlayerContent = ({
         </div>
       </div>
 
-      <div
-        className='hidden md:flex h-full justify-center items-center w-full 
-        max-w-[722px] gap-x-6'
-      >
-        {!isShuffle ? (
-          <BsArrowRight
-            size={23}
-            onClick={onShuffle}
-            className='text-neutral-400 cursor-pointer hover:text-white transition'
-          />
-        ) : (
-          <BsShuffle
-            size={23}
-            onClick={onShuffle}
-            className='text-neutral-400 cursor-pointer hover:text-white transition'
-          />
-        )}
-
-        <AiFillStepBackward
-          onClick={onPlayPrevious}
-          size={30}
-          className='text-neutral-400 cursor-pointer hover:text-white transition'
-        />
+      <div className='flex flex-col justify-between items-center h-[65px] w-full'>
         <div
-          onClick={handlePlay}
-          className='flex items-center justify-center h-10 w-10 rounded-full 
-          bg-white p-1 cursor-pointer hover:scale-110'
+          className='hidden md:flex h-[60%] justify-center items-center w-full 
+        max-w-[722px] gap-x-6'
         >
-          <Icon size={30} className='text-black' />
-        </div>
-        <AiFillStepForward
-          onClick={() => onPlayNext(true)}
-          size={30}
-          className='text-neutral-400 cursor-pointer hover:text-white transition'
-        />
-        {isLoop ? (
-          <BsRepeat1
-            onClick={onLoop}
-            size={23}
-            className='text-white cursor-pointer hover:text-white transition'
-          />
-        ) : (
-          <BsRepeat
-            onClick={onLoop}
-            size={23}
+          {!isShuffle ? (
+            <BsArrowRight
+              size={23}
+              onClick={onShuffle}
+              className='text-neutral-400 cursor-pointer hover:text-white transition'
+            />
+          ) : (
+            <BsShuffle
+              size={23}
+              onClick={onShuffle}
+              className='text-neutral-400 cursor-pointer hover:text-white transition'
+            />
+          )}
+
+          <AiFillStepBackward
+            onClick={onPlayPrevious}
+            size={30}
             className='text-neutral-400 cursor-pointer hover:text-white transition'
           />
-        )}
+          <div
+            onClick={handlePlay}
+            className='flex items-center justify-center h-10 w-10 rounded-full 
+          bg-white p-1 cursor-pointer hover:scale-110'
+          >
+            <Icon size={30} className='text-black' />
+          </div>
+          <AiFillStepForward
+            onClick={() => onPlayNext(true)}
+            size={30}
+            className='text-neutral-400 cursor-pointer hover:text-white transition'
+          />
+          {isLoop ? (
+            <BsRepeat1
+              onClick={onLoop}
+              size={23}
+              className='text-white cursor-pointer hover:text-white transition'
+            />
+          ) : (
+            <BsRepeat
+              onClick={onLoop}
+              size={23}
+              className='text-neutral-400 cursor-pointer hover:text-white transition'
+            />
+          )}
+        </div>
+        <div className='w-full h-[20%]'>
+          <Slider
+            value={seek}
+            onChange={(value) => setSeek(value)}
+            height='5px'
+          />
+        </div>
       </div>
 
       <div className='hidden md:flex w-full justify-end pr-2'>
@@ -222,7 +235,11 @@ const PlayerContent = ({
             className='cursor-pointer'
             size={30}
           />
-          <Slider value={volume} onChange={(value) => setVolume(value)} />
+          <Slider
+            value={volume}
+            onChange={(value) => setVolume(value)}
+            height='10px'
+          />
         </div>
       </div>
     </div>
