@@ -6,7 +6,7 @@ import useAuthModal from './useAuthModal';
 import useSubscribeModal from './useSubscribeModal';
 
 const useOnPlay = (songs: Song[]) => {
-  const { setId, setIds } = usePlayer();
+  const { setId, setIds, setUnshuffledIds } = usePlayer();
   const authModal = useAuthModal();
   const subscribeModal = useSubscribeModal();
   const { user, subscription } = useUser();
@@ -21,7 +21,10 @@ const useOnPlay = (songs: Song[]) => {
     }
 
     setId(id);
-    setIds(songs.map((song) => song.id));
+    const ids = songs.map((song) => song.id);
+    console.log(ids);
+    setIds(ids);
+    setUnshuffledIds(ids);
   };
 
   return onPlay;

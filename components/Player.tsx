@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import usePlayer from '@/hooks/usePlayer';
 import useLoadSong from '@/hooks/useLoadSong';
@@ -11,11 +11,22 @@ import PlayerContent from './PlayerContent';
 const Player = () => {
   const [volume, setVolume] = useState(1);
   const [isLoop, setIsLoop] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
   const [oldVolume, setOldVolume] = useState(1);
 
   const player = usePlayer();
   const { song } = useGetSongById(player.activeId);
   const songUrl = useLoadSong(song!);
+
+  useEffect(() => {
+    if (isShuffle) {
+      player.shuffle(player.unShuffledIds);
+    } else {
+      player.resetShuffle(player.unShuffledIds);
+    }
+    console.log(isShuffle);
+    console.log(player.ids, player.unShuffledIds);
+  }, [isShuffle]);
 
   if (!song || !songUrl || !player.activeId) {
     return null;
@@ -28,6 +39,8 @@ const Player = () => {
         setVolume={setVolume}
         isLoop={isLoop}
         setIsLoop={setIsLoop}
+        isShuffle={isShuffle}
+        setIsShuffle={setIsShuffle}
         oldVolume={oldVolume}
         setOldVolume={setOldVolume}
         key={songUrl}

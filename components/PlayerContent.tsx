@@ -7,6 +7,7 @@ import {
   BsRepeat,
   BsRepeat1,
   BsShuffle,
+  BsArrowRight,
 } from 'react-icons/bs';
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
@@ -24,6 +25,8 @@ interface PlayerContentProps {
   setVolume: (vol: number) => void;
   isLoop: boolean;
   setIsLoop: (val: boolean) => void;
+  isShuffle: boolean;
+  setIsShuffle: (val: boolean) => void;
   oldVolume: number;
   setOldVolume: (vol: number) => void;
   song: Song;
@@ -35,6 +38,8 @@ const PlayerContent = ({
   setVolume,
   isLoop,
   setIsLoop,
+  isShuffle,
+  setIsShuffle,
   oldVolume,
   setOldVolume,
   song,
@@ -128,6 +133,14 @@ const PlayerContent = ({
     }
   };
 
+  const onShuffle = () => {
+    if (isShuffle) {
+      setIsShuffle(false);
+    } else {
+      setIsShuffle(true);
+    }
+  };
+
   // Player Icons
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -156,10 +169,20 @@ const PlayerContent = ({
         className='hidden md:flex h-full justify-center items-center w-full 
         max-w-[722px] gap-x-6'
       >
-        <BsShuffle
-          size={23}
-          className='text-neutral-400 cursor-pointer hover:text-white transition'
-        />
+        {!isShuffle ? (
+          <BsArrowRight
+            size={23}
+            onClick={onShuffle}
+            className='text-neutral-400 cursor-pointer hover:text-white transition'
+          />
+        ) : (
+          <BsShuffle
+            size={23}
+            onClick={onShuffle}
+            className='text-neutral-400 cursor-pointer hover:text-white transition'
+          />
+        )}
+
         <AiFillStepBackward
           onClick={onPlayPrevious}
           size={30}
@@ -181,7 +204,7 @@ const PlayerContent = ({
           <BsRepeat1
             onClick={onLoop}
             size={23}
-            className='text-neutral-400 cursor-pointer hover:text-white transition'
+            className='text-white cursor-pointer hover:text-white transition'
           />
         ) : (
           <BsRepeat
