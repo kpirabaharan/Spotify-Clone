@@ -156,7 +156,7 @@ const PlayerContent = ({
     <>
       <div className='flex flex-row justify-between h-full w-full'>
         <div className='flex w-full justify-start'>
-          <div className='flex items-center w-[275px]'>
+          <div className='flex items-center w-[230px]'>
             <MediaItem data={song} />
             <LikeButton songId={song.id} />
           </div>
