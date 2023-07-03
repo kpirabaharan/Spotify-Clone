@@ -43,10 +43,6 @@ const Player = () => {
         setIsLoop={setIsLoop}
         isShuffle={isShuffle}
         setIsShuffle={setIsShuffle}
-        oldVolume={oldVolume}
-        setOldVolume={setOldVolume}
-        seek={seek}
-        setSeek={setSeek}
         key={songUrl}
         song={song}
         songUrl={songUrl}
