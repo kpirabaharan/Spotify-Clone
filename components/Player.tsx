@@ -25,8 +25,6 @@ const Player = () => {
     } else {
       player.resetShuffle(player.unShuffledIds);
     }
-    console.log(isShuffle);
-    console.log(player.ids, player.unShuffledIds);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isShuffle]);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import {
   BsPauseFill,
@@ -43,9 +43,11 @@ const PlayerContent = ({
   songUrl,
 }: PlayerContentProps) => {
   const player = usePlayer();
+  const playerRef = useRef<ReactPlayer>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMute, setIsMute] = useState(false);
   const [seek, setSeek] = useState(0);
+  const [playbackRate, setPlaybackRate] = useState(1);
   const [songDuration, setSongDuration] = useState('');
   const [playedDuration, setPlayedDuration] = useState('');
 
@@ -122,12 +124,7 @@ const PlayerContent = ({
   };
 
   // Update PlayedDuration
-  const onProgress = (
-    played: number,
-    playedSeconds: number,
-    loaded: number,
-    loadedSeconds: number,
-  ) => {
+  const onProgress = (played: number, playedSeconds: number) => {
     const minutes = Math.floor(playedSeconds / 60);
     const seconds = Math.round(playedSeconds - minutes * 60);
     setPlayedDuration(
@@ -157,9 +154,9 @@ const PlayerContent = ({
 
   return (
     <>
-      <div className='flex flex-row justify-between h-full'>
+      <div className='flex flex-row justify-between h-full w-full'>
         <div className='flex w-full justify-start'>
-          <div className='flex items-center gap-x-2 max-w-[250px]'>
+          <div className='flex items-center w-[275px]'>
             <MediaItem data={song} />
             <LikeButton songId={song.id} />
           </div>
@@ -180,11 +177,8 @@ const PlayerContent = ({
           </div>
         </div>
 
-        <div className='hidden md:flex flex-col justify-between items-center h-[60px] w-full'>
-          <div
-            className='flex h-[60%] justify-center items-center w-full 
-        max-w-[722px] gap-x-6'
-          >
+        <div className='hidden md:flex flex-col justify-between items-center h-[60px] w-full pl-4'>
+          <div className='flex h-[60%] justify-center items-center w-full max-w-[722px] gap-x-4'>
             {!isShuffle ? (
               <BsArrowRight
                 size={23}
@@ -212,7 +206,9 @@ const PlayerContent = ({
               <Icon size={30} className='text-black' />
             </div>
             <AiFillStepForward
-              onClick={() => onPlayNext(true)}
+              onClick={() => {
+                onPlayNext(true);
+              }}
               size={30}
               className='text-neutral-400 cursor-pointer hover:text-white transition'
             />
@@ -238,6 +234,7 @@ const PlayerContent = ({
               <Seekbar
                 value={seek}
                 onChange={(value) => {
+                  playerRef.current?.seekTo(value);
                   setSeek(value);
                 }}
               />
@@ -262,16 +259,18 @@ const PlayerContent = ({
 
       <div className='hidden'>
         <ReactPlayer
+          ref={playerRef}
           url={songUrl}
           playing={isPlaying}
+          playbackRate={playbackRate}
           volume={volume}
           muted={isMute}
           onEnded={() => {
             setIsPlaying(false);
             onPlayNext();
           }}
-          onProgress={({ played, loaded, playedSeconds, loadedSeconds }) =>
-            onProgress(played, playedSeconds, loaded, loadedSeconds)
+          onProgress={({ played, playedSeconds }) =>
+            onProgress(played, playedSeconds)
           }
           onDuration={(duration) => onDuration(duration)}
         />
