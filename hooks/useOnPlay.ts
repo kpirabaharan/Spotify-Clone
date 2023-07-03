@@ -22,7 +22,6 @@ const useOnPlay = (songs: Song[]) => {
 
     setId(id);
     const ids = songs.map((song) => song.id);
-    console.log(ids);
     setIds(ids);
     setUnshuffledIds(ids);
   };

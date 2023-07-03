@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import ReactPlayer from 'react-player';
 import {
   BsPauseFill,
   BsPlayFill,
@@ -11,13 +12,13 @@ import {
 } from 'react-icons/bs';
 import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
-import useSound from 'use-sound';
 
 import { Song } from '@/types';
 
 import MediaItem from './MediaItem';
 import LikeButton from './LikeButton';
 import Slider from './Slider';
+import Seekbar from './Seekbar';
 import usePlayer from '@/hooks/usePlayer';
 
 interface PlayerContentProps {
@@ -51,34 +52,14 @@ const PlayerContent = ({
 }: PlayerContentProps) => {
   const player = usePlayer();
   const [isPlaying, setIsPlaying] = useState(true);
-
-  // Play Song
-  const [play, { pause, sound }] = useSound(songUrl, {
-    volume: volume,
-    onplay: () => setIsPlaying(true),
-    onend: () => {
-      setIsPlaying(false);
-      onPlayNext();
-    },
-    onpause: () => {
-      setIsPlaying(false);
-    },
-    format: ['mp3'],
-  });
-
-  useEffect(() => {
-    sound?.play();
-
-    return () => {
-      sound?.unload();
-    };
-  }, [sound]);
+  const [songDuration, setSongDuration] = useState('');
+  const [playedDuration, setPlayedDuration] = useState('');
 
   const handlePlay = () => {
     if (!isPlaying) {
-      play();
+      setIsPlaying(true);
     } else {
-      pause();
+      setIsPlaying(false);
     }
   };
 
@@ -129,6 +110,7 @@ const PlayerContent = ({
     return player.setId(nextSong);
   };
 
+  // Toggle Loop
   const onLoop = () => {
     if (isLoop) {
       setIsLoop(false);
@@ -137,6 +119,7 @@ const PlayerContent = ({
     }
   };
 
+  // Toggle Shuffle
   const onShuffle = () => {
     if (isShuffle) {
       setIsShuffle(false);
@@ -145,104 +128,161 @@ const PlayerContent = ({
     }
   };
 
+  // Update PlayedDuration
+  const onProgress = (
+    played: number,
+    playedSeconds: number,
+    loaded: number,
+    loadedSeconds: number,
+  ) => {
+    const minutes = Math.floor(playedSeconds / 60);
+    const seconds = Math.round(playedSeconds - minutes * 60);
+    setPlayedDuration(
+      `${minutes}:${seconds.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      })}`,
+    );
+    setSeek(played);
+  };
+
+  // Update Song Duration
+  const onDuration = (duration: number) => {
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.round(duration - minutes * 60);
+    setSongDuration(
+      `${minutes}:${seconds.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      })}`,
+    );
+  };
+
   // Player Icons
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
 
   return (
-    <div className='grid grid-cols-2 md:grid-cols-3 h-full'>
-      <div className='flex w-full justify-start'>
-        <div className='flex items-center gap-x-2 max-w-[250px]'>
-          <MediaItem data={song} />
-          <LikeButton songId={song.id} />
-        </div>
-      </div>
-
-      <div className='flex gap-x-4 md:hidden col-auto w-full justify-end items-center'>
-        <VolumeIcon onClick={toggleMute} className='cursor-pointer' size={25} />
-        <div
-          onClick={handlePlay}
-          className='h-10 w-10 flex items-center justify-center rounded-full 
-          bg-white p-1 cursor-pointer'
-        >
-          <Icon size={30} className='text-black' />
-        </div>
-      </div>
-
-      <div className='flex flex-col justify-between items-center h-[65px] w-full'>
-        <div
-          className='hidden md:flex h-[60%] justify-center items-center w-full 
-        max-w-[722px] gap-x-6'
-        >
-          {!isShuffle ? (
-            <BsArrowRight
-              size={23}
-              onClick={onShuffle}
-              className='text-neutral-400 cursor-pointer hover:text-white transition'
-            />
-          ) : (
-            <BsShuffle
-              size={23}
-              onClick={onShuffle}
-              className='text-neutral-400 cursor-pointer hover:text-white transition'
-            />
-          )}
-
-          <AiFillStepBackward
-            onClick={onPlayPrevious}
-            size={30}
-            className='text-neutral-400 cursor-pointer hover:text-white transition'
-          />
-          <div
-            onClick={handlePlay}
-            className='flex items-center justify-center h-10 w-10 rounded-full 
-          bg-white p-1 cursor-pointer hover:scale-110'
-          >
-            <Icon size={30} className='text-black' />
+    <>
+      <div className='flex flex-row justify-between h-full'>
+        <div className='flex w-full justify-start'>
+          <div className='flex items-center gap-x-2 max-w-[250px]'>
+            <MediaItem data={song} />
+            <LikeButton songId={song.id} />
           </div>
-          <AiFillStepForward
-            onClick={() => onPlayNext(true)}
-            size={30}
-            className='text-neutral-400 cursor-pointer hover:text-white transition'
-          />
-          {isLoop ? (
-            <BsRepeat1
-              onClick={onLoop}
-              size={23}
-              className='text-white cursor-pointer hover:text-white transition'
-            />
-          ) : (
-            <BsRepeat
-              onClick={onLoop}
-              size={23}
-              className='text-neutral-400 cursor-pointer hover:text-white transition'
-            />
-          )}
         </div>
-        <div className='w-full h-[20%]'>
-          <Slider
-            value={seek}
-            onChange={(value) => setSeek(value)}
-            height='5px'
-          />
-        </div>
-      </div>
 
-      <div className='hidden md:flex w-full justify-end pr-2'>
-        <div className='flex items-center gap-x-2 w-[120px]'>
+        <div className='flex gap-x-4 md:hidden col-auto w-full justify-end items-center'>
           <VolumeIcon
             onClick={toggleMute}
             className='cursor-pointer'
-            size={30}
+            size={25}
           />
-          <Slider
-            value={volume}
-            onChange={(value) => setVolume(value)}
-            height='10px'
-          />
+          <div
+            onClick={handlePlay}
+            className='h-10 w-10 flex items-center justify-center rounded-full 
+          bg-white p-1 cursor-pointer'
+          >
+            <Icon size={30} className='text-black' />
+          </div>
+        </div>
+
+        <div className='hidden md:flex flex-col justify-between items-center h-[60px] w-full'>
+          <div
+            className='flex h-[60%] justify-center items-center w-full 
+        max-w-[722px] gap-x-6'
+          >
+            {!isShuffle ? (
+              <BsArrowRight
+                size={23}
+                onClick={onShuffle}
+                className='text-neutral-400 cursor-pointer hover:text-white transition'
+              />
+            ) : (
+              <BsShuffle
+                size={23}
+                onClick={onShuffle}
+                className='text-neutral-400 cursor-pointer hover:text-white transition'
+              />
+            )}
+
+            <AiFillStepBackward
+              onClick={onPlayPrevious}
+              size={30}
+              className='text-neutral-400 cursor-pointer hover:text-white transition'
+            />
+            <div
+              onClick={handlePlay}
+              className='flex items-center justify-center h-10 w-10 rounded-full 
+          bg-white p-1 cursor-pointer hover:scale-110'
+            >
+              <Icon size={30} className='text-black' />
+            </div>
+            <AiFillStepForward
+              onClick={() => onPlayNext(true)}
+              size={30}
+              className='text-neutral-400 cursor-pointer hover:text-white transition'
+            />
+            {isLoop ? (
+              <BsRepeat1
+                onClick={onLoop}
+                size={23}
+                className='text-white cursor-pointer hover:text-white transition'
+              />
+            ) : (
+              <BsRepeat
+                onClick={onLoop}
+                size={23}
+                className='text-neutral-400 cursor-pointer hover:text-white transition'
+              />
+            )}
+          </div>
+          <div className='w-full h-[20%] flex flex-row justify-center'>
+            <p className='text-xs text-neutral-400 leading-[0.85rem] pr-2'>
+              {playedDuration}
+            </p>
+            <div className='flex w-[80%]'>
+              <Seekbar
+                value={seek}
+                onChange={(value) => {
+                  setSeek(value);
+                }}
+              />
+            </div>
+            <p className='text-xs text-neutral-400 leading-[0.85rem] pl-2'>
+              {songDuration}
+            </p>
+          </div>
+        </div>
+
+        <div className='hidden md:flex w-full justify-end pr-2'>
+          <div className='flex items-center gap-x-2 w-[120px]'>
+            <VolumeIcon
+              onClick={toggleMute}
+              className='cursor-pointer'
+              size={30}
+            />
+            <Slider value={volume} onChange={(value) => setVolume(value)} />
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className='hidden'>
+        <ReactPlayer
+          url={songUrl}
+          playing={isPlaying}
+          volume={volume}
+          onEnded={() => {
+            setIsPlaying(false);
+            onPlayNext();
+          }}
+          onProgress={({ played, loaded, playedSeconds, loadedSeconds }) =>
+            onProgress(played, playedSeconds, loaded, loadedSeconds)
+          }
+          onDuration={(duration) => onDuration(duration)}
+        />
+      </div>
+    </>
   );
 };
 
