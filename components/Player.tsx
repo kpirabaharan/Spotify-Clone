@@ -13,7 +13,6 @@ const Player = () => {
   const [isLoop, setIsLoop] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
   const [oldVolume, setOldVolume] = useState(1);
-  const [seek, setSeek] = useState(0);
 
   const player = usePlayer();
   const { song } = useGetSongById(player.activeId);
@@ -37,6 +36,8 @@ const Player = () => {
       <PlayerContent
         volume={volume}
         setVolume={setVolume}
+        oldVolume={oldVolume}
+        setOldVolume={setOldVolume}
         isLoop={isLoop}
         setIsLoop={setIsLoop}
         isShuffle={isShuffle}

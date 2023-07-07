@@ -24,6 +24,8 @@ import usePlayer from '@/hooks/usePlayer';
 interface PlayerContentProps {
   volume: number;
   setVolume: (vol: number) => void;
+  oldVolume: number;
+  setOldVolume: (vol: number) => void;
   isLoop: boolean;
   setIsLoop: (val: boolean) => void;
   isShuffle: boolean;
@@ -35,6 +37,8 @@ interface PlayerContentProps {
 const PlayerContent = ({
   volume,
   setVolume,
+  oldVolume,
+  setOldVolume,
   isLoop,
   setIsLoop,
   isShuffle,
@@ -59,10 +63,11 @@ const PlayerContent = ({
   };
 
   const toggleMute = () => {
-    if (volume === 0) {
-      setVolume(1);
-    } else {
+    if (volume !== 0) {
+      setOldVolume(volume);
       setVolume(0);
+    } else {
+      setVolume(oldVolume);
     }
   };
 
@@ -101,6 +106,7 @@ const PlayerContent = ({
       return player.setId(player.ids[0]);
     }
 
+    playerRef.current?.seekTo(0);
     return player.setId(nextSong);
   };
 
@@ -274,7 +280,6 @@ const PlayerContent = ({
           playbackRate={playbackRate}
           volume={volume}
           onEnded={() => {
-            setIsPlaying(false);
             onPlayNext();
           }}
           onProgress={({ played, playedSeconds }) =>
