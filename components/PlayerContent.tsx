@@ -48,7 +48,7 @@ const PlayerContent = ({
 }: PlayerContentProps) => {
   const player = usePlayer();
   const playerRef = useRef<ReactPlayer>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [seek, setSeek] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [songDuration, setSongDuration] = useState('');
@@ -153,15 +153,13 @@ const PlayerContent = ({
     );
   };
 
-  // useEffect(() => {
-  //   if (playerRef.current?.componentDidMount) {
-  //     setIsPlaying(true);
-  //   }
+  useEffect(() => {
+    setIsPlaying(true);
 
-  //   return () => {
-  //     playerRef.current.unload();
-  //   };
-  // }, []);
+    return () => {
+      setIsPlaying(false);
+    };
+  }, []);
 
   // Player Icons
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
