@@ -3,7 +3,7 @@ import getSongs from '@/actions/getSongs';
 import Header from '@/components/Header';
 import ListItem from '@/components/ListItem';
 import PageContent from '@/app/(site)/components/PageContent';
-import Welcome from './components/Welcome';
+import Welcome from '@/app/(site)/components/Welcome';
 
 export const revalidate = 0;
 
