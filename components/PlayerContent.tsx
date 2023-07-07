@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import {
   BsPauseFill,
@@ -45,7 +45,6 @@ const PlayerContent = ({
   const player = usePlayer();
   const playerRef = useRef<ReactPlayer>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMute, setIsMute] = useState(false);
   const [seek, setSeek] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [songDuration, setSongDuration] = useState('');
@@ -60,10 +59,10 @@ const PlayerContent = ({
   };
 
   const toggleMute = () => {
-    if (isMute) {
-      setIsMute(false);
+    if (volume === 0) {
+      setVolume(1);
     } else {
-      setIsMute(true);
+      setVolume(0);
     }
   };
 
@@ -147,6 +146,16 @@ const PlayerContent = ({
       })}`,
     );
   };
+
+  // useEffect(() => {
+  //   if (playerRef.current?.componentDidMount) {
+  //     setIsPlaying(true);
+  //   }
+
+  //   return () => {
+  //     playerRef.current.unload();
+  //   };
+  // }, []);
 
   // Player Icons
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
@@ -264,7 +273,6 @@ const PlayerContent = ({
           playing={isPlaying}
           playbackRate={playbackRate}
           volume={volume}
-          muted={isMute}
           onEnded={() => {
             setIsPlaying(false);
             onPlayNext();
