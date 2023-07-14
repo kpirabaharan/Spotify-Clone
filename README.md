@@ -20,6 +20,11 @@ This is a Spotify clone app created using Next.js, a React framework for server-
 
 You can access the live demo of the app at [https://spotify-clone-kpirabaharan.vercel.app/](https://spotify-clone-kpirabaharan.vercel.app/).
 
+- Feel free to use the anonymous account linked to a dummy email address.
+- Or you can use your own email address. This deployment is in test mode so you can "pay" (dummy transactions) with fake information.
+The test payment card is 4242 4242 4242 4242. The rest of the information can be made up.
+- _Please don't unsubscribe from the spotify plan from the dummy account. I want to show the billing portal to visitors._
+
 ## Technologies Used
 
 - Next.js: React framework for server-side rendering and building web applications
