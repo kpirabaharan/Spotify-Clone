@@ -96,6 +96,11 @@ const UploadModal = () => {
           setIsLoading(false);
           return toast.error(supabaseError.message);
         }
+
+        setIsLoading(false);
+        
+        reset();
+        router.refresh();
       };
 
       toast.promise(uploadandDocumentSong(), {
@@ -104,9 +109,7 @@ const UploadModal = () => {
         error: <b>Upload Failed</b>,
       });
 
-      reset();
       onClose();
-      router.refresh();
     } catch (_) {
       toast.error('Something went wrong');
     } finally {
