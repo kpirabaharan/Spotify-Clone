@@ -8,6 +8,8 @@ import {
 } from '@supabase/auth-helpers-react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { toast } from 'react-hot-toast';
+import { BsIncognito } from 'react-icons/bs';
 
 import useAuthModal from '@/hooks/useAuthModal';
 
@@ -32,6 +34,23 @@ const AuthModal = () => {
     }
   }, [session, router, onClose]);
 
+
+  const handleAnonLogin = async () => {
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email:'test@test.com',
+      password: 'Password123'
+    })
+
+    router.refresh();
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Logged In Anonymously');
+    }
+  };
+
+
   return (
     <Modal
       title='Welcome back'
@@ -39,6 +58,14 @@ const AuthModal = () => {
       isOpen={isOpen}
       onChange={onChange}
     >
+      <div
+        className='w-full flex flex-row justify-center items-center gap-x-2 
+        bg-white hover:opacity-80 py-[0.6rem] rounded-lg cursor-pointer'
+        onClick={handleAnonLogin}
+      >
+        <BsIncognito className='text-black' />
+        <p className='text-black text-base'>Sign in Anonymously</p>
+      </div>
       <Auth
         theme='dark'
         providers={['github']}
