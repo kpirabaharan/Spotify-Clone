@@ -51,55 +51,59 @@ const UploadModal = () => {
         return;
       }
 
-      const uniqueID = uniqid();
+      const uploadandDocumentSong = async () => {
+        const uniqueID = uniqid();
 
-      // Upload Song
-      const { data: songData, error: songError } = await supabaseClient.storage
-        .from('songs')
-        .upload(`song-${values.title}-${uniqueID}`, songFile, {
-          cacheControl: '3600',
-          upsert: false,
-        });
+        // Upload Song
+        const { data: songData, error: songError } =
+          await supabaseClient.storage
+            .from('songs')
+            .upload(`song-${values.title}-${uniqueID}`, songFile, {
+              cacheControl: '3600',
+              upsert: false,
+            });
 
-      if (songError) {
-        setIsLoading(false);
-        return toast.error('Failed song upload');
-      }
+        if (songError) {
+          setIsLoading(false);
+          return toast.error('Failed song upload');
+        }
 
-      // Upload Image once Song Upload is Successful
-      const { data: imageData, error: imageError } =
-        await supabaseClient.storage
-          .from('images')
-          .upload(`image-${values.title}-${uniqueID}`, imageFile, {
-            cacheControl: '3600',
-            upsert: false,
+        // Upload Image once Song Upload is Successful
+        const { data: imageData, error: imageError } =
+          await supabaseClient.storage
+            .from('images')
+            .upload(`image-${values.title}-${uniqueID}`, imageFile, {
+              cacheControl: '3600',
+              upsert: false,
+            });
+
+        if (imageError) {
+          setIsLoading(false);
+          return toast.error('Failed image upload');
+        }
+
+        // Create record in table
+        const { error: supabaseError, status: supabaseStatus } =
+          await supabaseClient.from('songs').insert({
+            user_id: user.id,
+            title: values.title,
+            artist: values.artist,
+            image_path: imageData.path,
+            song_path: songData.path,
           });
 
-      if (imageError) {
-        setIsLoading(false);
-        return toast.error('Failed image upload');
-      }
+        if (supabaseError) {
+          setIsLoading(false);
+          return toast.error(supabaseError.message);
+        }
+      };
 
-      // Create record in table
-      const { error: supabaseError, status: supabaseStatus } =
-        await supabaseClient.from('songs').insert({
-          user_id: user.id,
-          title: values.title,
-          artist: values.artist,
-          image_path: imageData.path,
-          song_path: songData.path,
-        });
+      toast.promise(uploadandDocumentSong(), {
+        loading: 'Uploading...',
+        success: <b>Song Created!</b>,
+        error: <b>Upload Failed</b>,
+      });
 
-      if (supabaseError) {
-        setIsLoading(false);
-        return toast.error(supabaseError.message);
-      }
-
-      // Success Case
-      setIsLoading(false);
-      if (supabaseStatus === 201) {
-        toast.success('Song created');
-      }
       reset();
       onClose();
       router.refresh();
