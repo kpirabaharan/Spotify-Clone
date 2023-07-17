@@ -99,6 +99,7 @@ const PlayerContent = ({
     if (isLoop && !clicked) {
       nextSong = player.ids[currentIndex];
       playerRef.current?.seekTo(0);
+      setIsPlaying(true);
     } else {
       nextSong = player.ids[currentIndex + 1];
     }
