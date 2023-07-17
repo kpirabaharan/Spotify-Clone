@@ -277,6 +277,8 @@ const PlayerContent = ({
           playing={isPlaying}
           playbackRate={playbackRate}
           volume={volume}
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
           onEnded={() => {
             onPlayNext();
           }}
