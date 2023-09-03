@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -44,7 +44,8 @@ const LikeButton = ({ songId }: LikeButtonProps) => {
 
   const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
-  const handleLike = async () => {
+  const handleLike = async (e: MouseEvent) => {
+    e.stopPropagation();
     if (!user) {
       return onOpen();
     }

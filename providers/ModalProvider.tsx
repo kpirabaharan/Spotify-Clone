@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import AuthModal from '@/components/AuthModal';
-import UploadModal from '@/components/UploadModal';
-import SubscribeModal from '@/components/SubscribeModal';
+import AuthModal from '@/components/modals/AuthModal';
+import UploadModal from '@/components/modals/UploadModal';
+import PlayerModal from '@/components/modals/PlayerModal';
+import SubscribeModal from '@/components/modals/SubscribeModal';
 import { ProductWithPrice } from '@/types';
 
 interface ModalProviderProps {
@@ -26,6 +27,7 @@ const ModalProvider = ({ products }: ModalProviderProps) => {
     <>
       <AuthModal />
       <UploadModal />
+      <PlayerModal/>
       <SubscribeModal products={products} />
     </>
   );

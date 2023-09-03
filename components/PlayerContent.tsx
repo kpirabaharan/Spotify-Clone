@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, MouseEvent } from 'react';
 import ReactPlayer from 'react-player';
 import {
   BsPauseFill,
@@ -14,12 +14,13 @@ import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
 
 import { Song } from '@/types';
+import usePlayerModal from '@/hooks/usePlayerModal';
+import usePlayer from '@/hooks/usePlayer';
 
 import MediaItem from './MediaItem';
 import LikeButton from './LikeButton';
 import Slider from './Slider';
 import Seekbar from './Seekbar';
-import usePlayer from '@/hooks/usePlayer';
 
 interface PlayerContentProps {
   volume: number;
@@ -53,8 +54,10 @@ const PlayerContent = ({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [songDuration, setSongDuration] = useState('');
   const [playedDuration, setPlayedDuration] = useState('');
+  const { onOpen } = usePlayerModal();
 
-  const handlePlay = () => {
+  const handlePlay = (e: MouseEvent) => {
+    e.stopPropagation();
     if (!isPlaying) {
       setIsPlaying(true);
     } else {
@@ -62,7 +65,8 @@ const PlayerContent = ({
     }
   };
 
-  const toggleMute = () => {
+  const toggleMute = (e: MouseEvent) => {
+    e.stopPropagation();
     if (volume !== 0) {
       setOldVolume(volume);
       setVolume(0);
@@ -168,7 +172,7 @@ const PlayerContent = ({
 
   return (
     <>
-      <div className='flex flex-row justify-between h-full w-full'>
+      <div className='flex justify-between h-full w-full md:hidden'>
         <div className='flex w-full justify-start'>
           <div className='flex items-center w-[230px]'>
             <MediaItem data={song} />
@@ -176,7 +180,7 @@ const PlayerContent = ({
           </div>
         </div>
 
-        <div className='flex gap-x-4 md:hidden col-auto w-full justify-end items-center'>
+        <div className='flex gap-x-4 items-center'>
           <VolumeIcon
             onClick={toggleMute}
             className='cursor-pointer'
@@ -185,13 +189,22 @@ const PlayerContent = ({
           <div
             onClick={handlePlay}
             className='h-10 w-10 flex items-center justify-center rounded-full 
-          bg-white p-1 cursor-pointer'
+            bg-white p-1 cursor-pointer'
           >
             <Icon size={30} className='text-black' />
           </div>
         </div>
+      </div>
 
-        <div className='hidden md:flex flex-col justify-between items-center h-[60px] w-full pl-4'>
+      <div className='hidden md:flex'>
+        <div className='flex w-full justify-start'>
+          <div className='flex items-center w-[230px]'>
+            <MediaItem data={song} />
+            <LikeButton songId={song.id} />
+          </div>
+        </div>
+        
+        <div className='flex-col justify-between items-center h-[60px] w-full pl-4'>
           <div className='flex h-[60%] justify-center items-center w-full max-w-[722px] gap-x-4'>
             {!isShuffle ? (
               <BsArrowRight
@@ -259,7 +272,7 @@ const PlayerContent = ({
           </div>
         </div>
 
-        <div className='hidden md:flex w-full justify-end pr-2'>
+        <div className='flex items-center w-full justify-end pr-2'>
           <div className='flex items-center gap-x-2 w-[120px]'>
             <VolumeIcon
               onClick={toggleMute}
