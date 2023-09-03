@@ -34,12 +34,11 @@ const AuthModal = () => {
     }
   }, [session, router, onClose]);
 
-
   const handleAnonLogin = async () => {
     const { error } = await supabaseClient.auth.signInWithPassword({
-      email:'test@test.com',
-      password: 'Password123'
-    })
+      email: 'test@test.com',
+      password: 'Password123',
+    });
 
     router.refresh();
 
@@ -49,7 +48,6 @@ const AuthModal = () => {
       toast.success('Logged In Anonymously');
     }
   };
-
 
   return (
     <Modal

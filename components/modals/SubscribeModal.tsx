@@ -10,7 +10,7 @@ import { postData } from '@/libs/helpers';
 import { getStripe } from '@/libs/stripeClient';
 
 import Modal from './Modal';
-import Button from './Button';
+import Button from '../Button';
 
 interface SubscribeModalProps {
   products: ProductWithPrice[];

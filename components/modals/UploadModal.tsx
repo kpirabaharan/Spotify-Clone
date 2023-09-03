@@ -11,8 +11,8 @@ import { useUser } from '@/hooks/useUser';
 import useUploadModal from '@/hooks/useUploadModal';
 
 import Modal from './Modal';
-import Input from './Input';
-import Button from './Button';
+import Input from '../Input';
+import Button from '../Button';
 
 const UploadModal = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +98,7 @@ const UploadModal = () => {
         }
 
         setIsLoading(false);
-        
+
         reset();
         router.refresh();
       };
