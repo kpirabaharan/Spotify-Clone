@@ -12,7 +12,7 @@ const Seekbar = ({ value = 0, onChange }: SeekbarProps) => {
 
   return (
     <Root
-      className='relative flex items-center select-none touch-none w-full h-full'
+      className='relative flex items-center select-none touch-none w-full h-full cursor-pointer'
       defaultValue={[0]}
       value={[value]}
       onValueChange={handleChange}

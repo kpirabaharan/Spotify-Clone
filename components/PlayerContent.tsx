@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, MouseEvent } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import {
   BsPauseFill,
@@ -14,13 +14,14 @@ import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2';
 
 import { Song } from '@/types';
-import usePlayerModal from '@/hooks/usePlayerModal';
 import usePlayer from '@/hooks/usePlayer';
 
 import MediaItem from './MediaItem';
 import LikeButton from './LikeButton';
 import Slider from './Slider';
 import Seekbar from './Seekbar';
+import PlayerModal from './modals/PlayerModal';
+import usePlayerModal from '@/hooks/usePlayerModal';
 
 interface PlayerContentProps {
   volume: number;
@@ -54,10 +55,10 @@ const PlayerContent = ({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [songDuration, setSongDuration] = useState('');
   const [playedDuration, setPlayedDuration] = useState('');
+
   const { onOpen } = usePlayerModal();
 
-  const handlePlay = (e: MouseEvent) => {
-    e.stopPropagation();
+  const handlePlay = () => {
     if (!isPlaying) {
       setIsPlaying(true);
     } else {
@@ -65,8 +66,7 @@ const PlayerContent = ({
     }
   };
 
-  const toggleMute = (e: MouseEvent) => {
-    e.stopPropagation();
+  const toggleMute = () => {
     if (volume !== 0) {
       setOldVolume(volume);
       setVolume(0);
@@ -173,7 +173,7 @@ const PlayerContent = ({
   return (
     <>
       <div className='flex justify-between h-full w-full md:hidden'>
-        <div className='flex w-full justify-start'>
+        <div className='flex w-full justify-start' onClick={onOpen}>
           <div className='flex items-center w-[230px]'>
             <MediaItem data={song} />
             <LikeButton songId={song.id} />
@@ -196,16 +196,16 @@ const PlayerContent = ({
         </div>
       </div>
 
-      <div className='hidden md:flex'>
+      <div className='hidden md:flex md:flex-row h-full w-full'>
         <div className='flex w-full justify-start'>
-          <div className='flex items-center w-[230px]'>
+          <div className='flex items-center justify-start w-[230px]'>
             <MediaItem data={song} />
             <LikeButton songId={song.id} />
           </div>
         </div>
-        
-        <div className='flex-col justify-between items-center h-[60px] w-full pl-4'>
-          <div className='flex h-[60%] justify-center items-center w-full max-w-[722px] gap-x-4'>
+
+        <div className='flex-col justify-between items-center h-full w-full pl-4'>
+          <div className='flex h-[50px] justify-center items-center w-full max-w-[722px] gap-x-4'>
             {!isShuffle ? (
               <BsArrowRight
                 size={23}
@@ -253,7 +253,7 @@ const PlayerContent = ({
               />
             )}
           </div>
-          <div className='w-full h-[20%] flex flex-row justify-center'>
+          <div className='w-full h-[10px] flex flex-row justify-center'>
             <p className='text-xs text-neutral-400 leading-[0.85rem] pr-2'>
               {playedDuration}
             </p>
@@ -283,6 +283,27 @@ const PlayerContent = ({
           </div>
         </div>
       </div>
+
+      <PlayerModal
+        key={songUrl}
+        data={song}
+        volume={volume}
+        setVolume={setVolume}
+        toggleMute={toggleMute}
+        seek={seek}
+        setSeek={setSeek}
+        isPlaying={isPlaying}
+        isShuffle={isShuffle}
+        isLoop={isLoop}
+        onShuffle={onShuffle}
+        onLoop={onLoop}
+        onPlayPrevious={onPlayPrevious}
+        onPlayNext={onPlayNext}
+        handlePlay={handlePlay}
+        playerRef={playerRef}
+        playedDuration={playedDuration}
+        songDuration={songDuration}
+      />
 
       <div className='hidden'>
         <ReactPlayer

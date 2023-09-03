@@ -11,9 +11,10 @@ import { useUser } from '@/hooks/useUser';
 
 interface LikeButtonProps {
   songId: string;
+  iconSize?: number;
 }
 
-const LikeButton = ({ songId }: LikeButtonProps) => {
+const LikeButton = ({ songId, iconSize = 25 }: LikeButtonProps) => {
   const router = useRouter();
   const { supabaseClient } = useSessionContext();
   const { user } = useUser();
@@ -82,7 +83,7 @@ const LikeButton = ({ songId }: LikeButtonProps) => {
 
   return (
     <button className='hover:opacity-75 transition' onClick={handleLike}>
-      <Icon color={isLiked ? '#303d4f' : 'white'} size={25} />
+      <Icon color={isLiked ? '#303d4f' : 'white'} size={iconSize} />
     </button>
   );
 };
