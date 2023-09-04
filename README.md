@@ -22,7 +22,7 @@ You can access the live demo of the app at [https://spotify-clone-kpirabaharan.v
 
 - Feel free to use the anonymous account linked to a dummy email address.
 - Or you can use your own email address. This deployment is in test mode so you can "pay" (dummy transactions) with fake information.
-The test payment card is 4242 4242 4242 4242. The rest of the information can be made up.
+  The test payment card is 4242 4242 4242 4242. The rest of the information can be made up.
 - _Please don't unsubscribe from the spotify plan from the dummy account. I want to show the billing portal to visitors._
 
 ## Technologies Used
@@ -39,6 +39,10 @@ The test payment card is 4242 4242 4242 4242. The rest of the information can be
 
 ![Home Page](./screenshots/homepage.png)
 
+### Mobile Player
+
+<img src="./screenshots/mobileplayer.jpg" alt="mobile-player" width="250"/>
+
 ### Stripe Billing Portal
 
 ![Stripe Billing Portal](./screenshots/stripe.png)
@@ -53,7 +57,3 @@ If you have any questions or suggestions, please feel free to reach out to me:
 
 - Email: kpirabaharan3@gmail.com
 - LinkedIn: [https://linkedin.com/in/kpirabaharan/](https://linkedin.com/in/kpirabaharan/)
-
----
-
-Feel free to customize and expand the readme based on your project's specific requirements. Include any additional sections such as testing, deployment instructions, or acknowledgments.
