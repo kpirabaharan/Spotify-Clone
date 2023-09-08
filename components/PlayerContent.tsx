@@ -204,8 +204,8 @@ const PlayerContent = ({
           </div>
         </div>
 
-        <div className='flex-col justify-between items-center h-full w-full pl-4'>
-          <div className='flex h-[50px] justify-center items-center w-full max-w-[722px] gap-x-4'>
+        <div className='flex flex-col justify-between items-center h-full w-full'>
+          <div className='flex justify-center items-center w-full max-w-[722px] gap-x-4'>
             {!isShuffle ? (
               <BsArrowRight
                 size={23}
@@ -253,7 +253,7 @@ const PlayerContent = ({
               />
             )}
           </div>
-          <div className='w-full h-[10px] flex flex-row justify-center'>
+          <div className='w-full flex flex-row justify-center'>
             <p className='text-xs text-neutral-400 leading-[0.85rem] pr-2'>
               {playedDuration}
             </p>
