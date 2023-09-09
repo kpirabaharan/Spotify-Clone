@@ -58,11 +58,12 @@ const AuthModal = () => {
     >
       <div
         className='w-full flex flex-row justify-center items-center gap-x-2 
-        bg-white hover:opacity-80 py-[0.6rem] rounded-lg cursor-pointer'
+        bg-gradient-to-r from-slate-600 via-gray-500 to-slate-600
+        py-[0.6rem] rounded-lg cursor-pointer'
         onClick={handleAnonLogin}
       >
         <BsIncognito className='text-black' />
-        <p className='text-black text-base'>Sign in Anonymously</p>
+        <p className='text-black text-base'>Sign in Anonymously (Demo)</p>
       </div>
       <Auth
         theme='dark'
