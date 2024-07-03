@@ -18,7 +18,7 @@ This is a Spotify clone app created using Next.js, a React framework for server-
 
 ## Demo
 
-You can access the live demo of the app at [https://spotify-clone-kpirabaharan.vercel.app/](https://spotify-clone-kpirabaharan.vercel.app/).
+You can access the live demo of the app at [https://spotify-clone-keeshigan.vercel.app/](https://spotify-clone-keeshigan.vercel.app/).
 
 - Feel free to use the anonymous account linked to a dummy email address.
 - Or you can use your own email address. This deployment is in test mode so you can "pay" (dummy transactions) with fake information.
